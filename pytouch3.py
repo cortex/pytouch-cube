@@ -4,6 +4,7 @@ import sys
 import os.path as path
 
 from PyQt6.QtWidgets import QApplication
+from PyQt6.QtCore import QTimer
 from qasync import QEventLoop
 
 from gui import EditorWindow
@@ -42,7 +43,8 @@ def run(seed=False):
     loop = QEventLoop(app)
     asyncio.set_event_loop(loop)
 
-    asyncio.create_task(editor.init_async())
+    #asyncio.create_task(editor.init_async())
+    QTimer.singleShot(0, lambda: asyncio.create_task(editor.init_async()))
 
     with loop:
         loop.run_forever()
