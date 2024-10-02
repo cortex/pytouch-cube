@@ -36,7 +36,8 @@ class CliPrint:
     def get_device(self) -> comms.PrinterDevice | None:
         dev = None
         if self.device_name == "auto":
-            dev = comms.find_default_device()
+            import asyncio
+            dev = asyncio.run(comms.find_default_device())
         else:
             dev = comms.find_device(self.device_type, self.device_name)
         return dev
