@@ -73,12 +73,12 @@ class CliPrint:
         self.editor.open()
 
     @staticmethod
-    def _calculate_text_properties(font_name):
+    def _calculate_text_properties(font_name, font_size):
         """Method to calculate text properties so that the text is fully visible
         This means that the text is center vertically in accordance to the cap height"""
 
         font = QFont(font_name)
-        font_size = 68
+        font_size = font_size
 
         adjusted_font_size = TextPropsEdit.calc_adjusted_size_for_font(font, font_size)
         font.setPixelSize(adjusted_font_size)
@@ -92,19 +92,20 @@ class CliPrint:
 
         # without this line the font is glued to the top of all capitals
         # so now we can calculate the margin that would center the capHeight
-        top_margin += (68 - font_metric.capHeight()) // 2
+        top_margin += (font_size - font_metric.capHeight()) // 2
     
         return font, top_margin
 
     def printables_from_args(self, cli_args: Namespace):
         printable_args: List[Tuple[str, Any]] = cli_args.ordered_printables
         font = cli_args.default_font
+        font_size = cli_args.default_font_size
 
         for (name, args) in printable_args:
             tmp = None
             match name:
                 case "text":
-                    font, vert_margin = self._calculate_text_properties(font)
+                    font, vert_margin = self._calculate_text_properties(font, font_size)
                     margin = Margins(vert=vert_margin)
                     tmp = Text(TextData(args, font.toString(), margin))
                 case "qr_code":

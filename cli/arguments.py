@@ -71,6 +71,7 @@ def get_parser():
     config = cli.add_argument_group('config')
     cli_setup_labelmakerconfig(config, LabelMakerConfig)
     config.add_argument("--default-font", type=str, default="auto")
+    config.add_argument("--default-font-size", type=int, default=68)
     config.add_argument("--device", type=str, default="auto")
     config.add_argument("--device-type", type=str, default="serial", choices=["serial", "bluetooth"])
     config.add_argument("--output", type=str, help="don't print just write the output to a png")
